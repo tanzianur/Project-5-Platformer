@@ -192,16 +192,16 @@ void update()
 
     g_accumulator = delta_time;
 
-
     // ————— PLAYER CAMERA ————— //
     g_view_matrix = glm::mat4(1.0f);
 
-    if (g_current_scene->get_state().player->get_position().x > LEVEL1_LEFT_EDGE) {
-        g_view_matrix = glm::translate(g_view_matrix, glm::vec3(-g_current_scene->get_state().player->get_position().x, 3.75, 0));
-    }
-    else {
-        g_view_matrix = glm::translate(g_view_matrix, glm::vec3(-5, 3.75, 0));
-    }
+    float player_x = g_current_scene->get_state().player->get_position().x;
+    float player_y = g_current_scene->get_state().player->get_position().y;
+
+    float camera_x = (player_x > LEVEL1_LEFT_EDGE) ? -player_x : -LEVEL1_LEFT_EDGE;
+    float camera_y = -player_y;
+
+    g_view_matrix = glm::translate(g_view_matrix, glm::vec3(camera_x, camera_y, 0));
 }
 
 void render()

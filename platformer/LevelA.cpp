@@ -1,23 +1,25 @@
 #include "LevelA.h"
 #include "Utility.h"
 
-#define LEVEL_WIDTH 14
-#define LEVEL_HEIGHT 8
+#define LEVEL_WIDTH 25
+#define LEVEL_HEIGHT 10
 
-constexpr char SPRITESHEET_FILEPATH[] = "assets/george_0.png",
+constexpr char SPRITESHEET_FILEPATH[] = "assets/player1.png",
            PLATFORM_FILEPATH[]    = "assets/platformPack_tile027.png",
            ENEMY_FILEPATH[]       = "assets/soph.png";
 
 unsigned int LEVEL_DATA[] =
 {
-    3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    3, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1,
-    3, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2,
-    3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2
+    15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    37, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    37, 0, 0, 0, 0, 0, 0, 0, 0, 0, 39, 40, 41, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+    37, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    37, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 39, 40, 41, 0, 0, 0, 0, 0, 0, 0,
+    37, 0, 0, 0, 0, 0, 0, 0, 0, 6, 7, 7, 7, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    37, 6, 7, 7, 7, 7, 7, 7, 7, 10, 9, 9, 9, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    59, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 };
 
 LevelA::~LevelA()
@@ -31,17 +33,17 @@ LevelA::~LevelA()
 
 void LevelA::initialise()
 {
-    GLuint map_texture_id = Utility::load_texture("assets/tileset.png");
-    m_game_state.map = new Map(LEVEL_WIDTH, LEVEL_HEIGHT, LEVEL_DATA, map_texture_id, 1.0f, 4, 1);
+    GLuint map_texture_id = Utility::load_texture("assets/world_tileset2.png");
+    m_game_state.map = new Map(LEVEL_WIDTH, LEVEL_HEIGHT, LEVEL_DATA, map_texture_id, 1.0f, 22, 11);
     
     GLuint player_texture_id = Utility::load_texture(SPRITESHEET_FILEPATH);
 
     int player_walking_animation[4][4] =
     {
-        { 1, 5, 9, 13 },  // for George to move to the left,
-        { 3, 7, 11, 15 }, // for George to move to the right,
-        { 2, 6, 10, 14 }, // for George to move upwards,
-        { 0, 4, 8, 12 }   // for George to move downwards
+        { 4, 5, 6, 7 },  // for George to move to the left,
+        { 8, 9, 10, 11 }, // for George to move to the right,
+        { 12, 13, 14, 15 }, // for George to move upwards,
+        { 0, 1, 2, 3 }   // for George to move downwards
     };
 
     glm::vec3 acceleration = glm::vec3(0.0f, -4.81f, 0.0f);
@@ -62,7 +64,7 @@ void LevelA::initialise()
         PLAYER
     );
     
-    m_game_state.player->set_position(glm::vec3(5.0f, 0.0f, 0.0f));
+    m_game_state.player->set_position(glm::vec3(5.0f, -3.0f, 0.0f));
 
     // Jumping
     m_game_state.player->set_jumping_power(3.0f);
