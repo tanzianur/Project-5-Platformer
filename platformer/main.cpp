@@ -201,7 +201,8 @@ void update()
     float camera_x = (player_x > LEVEL1_LEFT_EDGE) ? -player_x : -LEVEL1_LEFT_EDGE;
     float camera_y = -player_y;
 
-    g_view_matrix = glm::translate(g_view_matrix, glm::vec3(camera_x, camera_y, 0));
+    g_view_matrix = glm::translate(g_view_matrix, glm::vec3(camera_x, camera_y - 1.3f, 0));
+    //g_view_matrix = glm::translate(g_view_matrix, glm::vec3(camera_x, 3.75, 0));
 }
 
 void render()
