@@ -24,6 +24,7 @@
 #include "Utility.h"
 #include "Scene.h"
 #include "LevelA.h"
+#include "Menu.h"
 
 // ————— CONSTANTS ————— //
 constexpr int WINDOW_WIDTH = 640,
@@ -49,6 +50,11 @@ enum AppStatus { RUNNING, TERMINATED };
 // ————— GLOBAL VARIABLES ————— //
 Scene* g_current_scene;
 LevelA* g_level_a;
+Menu* g_menu;
+
+int player_lives = 3;
+Scene* g_levels[5];
+
 
 SDL_Window* g_display_window;
 
@@ -147,7 +153,11 @@ void process_input()
                     Mix_PlayChannel(-1, g_current_scene->get_state().jump_sfx, 0);
                 }
                 break;
-
+            case SDLK_RETURN:
+                if (g_current_scene == g_levels[4]) {
+                    g_current_scene->update(-1);
+                }
+                break;
             default:
                 break;
             }

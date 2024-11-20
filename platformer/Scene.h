@@ -25,6 +25,7 @@ struct GameState
     Map *map;
     Entity *player;
     Entity *enemies;
+    Entity* lives;
     
     // ————— AUDIO ————— //
     Mix_Music *bgm;
