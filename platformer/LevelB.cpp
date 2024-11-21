@@ -1,43 +1,41 @@
-#include "LevelA.h"
+#include "LevelB.h"
 #include "Utility.h"
 
 #define LEVEL_WIDTH 35
 #define LEVEL_HEIGHT 10
 
 constexpr char SPRITESHEET_FILEPATH[] = "assets/player1.png",
-           PLATFORM_FILEPATH[]    = "assets/platformPack_tile027.png",
-           ENEMY_FILEPATH[]       = "assets/soph.png";
+PLATFORM_FILEPATH[] = "assets/platformPack_tile027.png",
+ENEMY_FILEPATH[] = "assets/soph.png";
 
-
-// 61, 62, 63 are the gray thin platforms (note to self)
-unsigned int LEVELA_DATA[] =
+unsigned int LEVELB_DATA[] =
 {
     15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     37, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    37, 0, 0, 0, 0, 0, 0, 0, 0, 0, 39, 40, 41, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     37, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    37, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 39, 40, 41, 0, 0, 0, 0, 0, 0, 0, 39, 40, 41, 0, 6, 7, 8, 0, 0,
+    37, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    37, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 7, 8, 0, 0,
     37, 0, 0, 0, 0, 0, 0, 0, 0, 6, 7, 7, 7, 8, 0, 0, 0, 0, 0, 0, 6, 7, 7, 7, 8, 0, 0, 0, 0, 0, 9, 9, 9, 0, 0,
     37, 6, 7, 7, 7, 7, 7, 7, 7, 10, 9, 9, 9, 9, 0, 0, 0, 0, 0, 0, 9, 9, 9, 9, 9, 0, 0, 0, 0, 0, 10, 10, 10, 0, 0,
     59, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 0, 0, 0, 0, 0, 0, 10, 10, 10, 10, 10, 0, 0, 0, 0, 0, 10, 10, 10, 0, 0
 };
 
-LevelA::~LevelA()
+LevelB::~LevelB()
 {
-    delete [] m_game_state.enemies;
-    delete    m_game_state.player;
-    delete    m_game_state.map;
-    Mix_FreeChunk(m_game_state.jump_sfx);
-    Mix_FreeMusic(m_game_state.bgm);
+	delete[] m_game_state.enemies;
+	delete    m_game_state.player;
+	delete    m_game_state.map;
+	Mix_FreeChunk(m_game_state.jump_sfx);
+	Mix_FreeMusic(m_game_state.bgm);
 }
 
-void LevelA::initialise()
+void LevelB::initialise()
 {
     GLuint map_texture_id = Utility::load_texture("assets/world_tileset2.png");
-    m_game_state.map = new Map(LEVEL_WIDTH, LEVEL_HEIGHT, LEVELA_DATA, map_texture_id, 1.0f, 22, 11);
-    
+    m_game_state.map = new Map(LEVEL_WIDTH, LEVEL_HEIGHT, LEVELB_DATA, map_texture_id, 1.0f, 22, 11);
+
     GLuint player_texture_id = Utility::load_texture(SPRITESHEET_FILEPATH);
 
     int player_walking_animation[4][4] =
@@ -65,12 +63,13 @@ void LevelA::initialise()
         1.0f,                       // height
         PLAYER
     );
-    
+
     m_game_state.player->set_position(glm::vec3(5.0f, -3.0f, 0.0f));
-	m_game_state.player->set_movement(glm::vec3(0.0f));
+    m_game_state.player->set_movement(glm::vec3(0.0f));
+
     // Jumping
     m_game_state.player->set_jumping_power(4.0f);
-    
+
     /**
      Enemies' stuff */
     GLuint enemy_texture_id = Utility::load_texture(ENEMY_FILEPATH);
@@ -79,7 +78,7 @@ void LevelA::initialise()
 
     for (int i = 0; i < ENEMY_COUNT; i++)
     {
-    m_game_state.enemies[i] =  Entity(enemy_texture_id, 1.0f, 1.0f, 1.0f, ENEMY, GUARD, IDLE);
+        m_game_state.enemies[i] = Entity(enemy_texture_id, 1.0f, 1.0f, 1.0f, ENEMY, GUARD, IDLE);
     }
 
 
@@ -91,18 +90,18 @@ void LevelA::initialise()
      BGM and SFX
      */
     Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 4096);
-    
+
     m_game_state.bgm = Mix_LoadMUS("assets/dooblydoo.mp3");
     Mix_PlayMusic(m_game_state.bgm, -1);
     Mix_VolumeMusic(0.0f);
-    
+
     m_game_state.jump_sfx = Mix_LoadWAV("assets/bounce.wav");
 }
 
-void LevelA::update(float delta_time)
+void LevelB::update(float delta_time)
 {
     m_game_state.player->update(delta_time, m_game_state.player, m_game_state.enemies, ENEMY_COUNT, m_game_state.map);
-    
+
     for (int i = 0; i < ENEMY_COUNT; i++)
     {
         m_game_state.enemies[i].update(delta_time, m_game_state.player, NULL, NULL, m_game_state.map);
@@ -110,10 +109,10 @@ void LevelA::update(float delta_time)
 }
 
 
-void LevelA::render(ShaderProgram *g_shader_program)
+void LevelB::render(ShaderProgram* g_shader_program)
 {
     m_game_state.map->render(g_shader_program);
     m_game_state.player->render(g_shader_program);
     for (int i = 0; i < m_number_of_enemies; i++)
-            m_game_state.enemies[i].render(g_shader_program);
+        m_game_state.enemies[i].render(g_shader_program);
 }

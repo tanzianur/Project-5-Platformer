@@ -24,6 +24,8 @@
 #include "Utility.h"
 #include "Scene.h"
 #include "LevelA.h"
+#include "LevelB.h"
+#include "LevelC.h"
 #include "Menu.h"
 
 // ————— CONSTANTS ————— //
@@ -50,10 +52,12 @@ enum AppStatus { RUNNING, TERMINATED };
 // ————— GLOBAL VARIABLES ————— //
 Scene* g_current_scene;
 LevelA* g_level_a;
+LevelB* g_level_b;
+LevelC* g_level_c;
 Menu* g_menu;
 
 int player_lives = 3;
-Scene* g_levels[5];
+Scene* g_levels[3];
 
 
 SDL_Window* g_display_window;
@@ -68,6 +72,19 @@ float g_accumulator = 0.0f;
 void switch_to_scene(Scene* scene)
 {
     g_current_scene = scene;
+    if (g_current_scene == g_level_a) {
+		g_level_a->initialise();
+		g_current_scene->get_state().player->set_position(glm::vec3(1.0f, -1.0f, 0.0f));
+	}
+	else if (g_current_scene == g_level_b) {
+        g_level_b->initialise();
+		g_current_scene->get_state().player->set_position(glm::vec3(1.0f, -1.0f, 0.0f));
+	}
+	else if (g_current_scene == g_level_c) {
+		g_level_c->initialise();
+		g_current_scene->get_state().player->set_position(glm::vec3(1.0f, -1.0f, 0.0f));
+	}
+
     g_current_scene->initialise();
 }
 
@@ -115,8 +132,17 @@ void initialise()
 
 
     // ————— LEVEL A SETUP ————— //
+    g_menu = new Menu();
     g_level_a = new LevelA();
-    switch_to_scene(g_level_a);
+    g_level_b = new LevelB();
+	g_level_c = new LevelC();
+
+    g_levels[0] = g_level_c;
+    g_levels[1] = g_level_b;
+    g_levels[2] = g_level_a;
+    g_levels[3] = g_menu;
+
+    switch_to_scene(g_levels[3]);
 
     // ————— BLENDING ————— //
     glEnable(GL_BLEND);
@@ -154,7 +180,7 @@ void process_input()
                 }
                 break;
             case SDLK_RETURN:
-                if (g_current_scene == g_levels[4]) {
+                if (g_current_scene == g_levels[3]) {
                     g_current_scene->update(-1);
                 }
                 break;
@@ -233,6 +259,9 @@ void shutdown()
 
     // ————— DELETING LEVEL A DATA (i.e. map, character, enemies...) ————— //
     delete g_level_a;
+	delete g_level_b;
+	delete g_level_c;
+	delete g_menu;
 }
 
 // ————— GAME LOOP ————— //
